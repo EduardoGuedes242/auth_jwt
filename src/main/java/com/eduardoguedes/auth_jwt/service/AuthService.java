@@ -54,7 +54,8 @@ public class AuthService {
     User user = new User(
             userRequestDTO.name(),
             userRequestDTO.email(),
-            passwordHash
+            passwordHash,
+            userRequestDTO.role()
     );
 
     User savedUser = userRepository.save(user);

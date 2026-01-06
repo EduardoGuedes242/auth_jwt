@@ -27,7 +27,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     JwtAuthenticationFilter jwtFilter =
-            new JwtAuthenticationFilter(jwtService, userRepository);
+            new JwtAuthenticationFilter(jwtService);
 
     http
             .csrf(csrf -> csrf.disable())
@@ -36,6 +36,8 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/products/**").hasRole("ADMINISTRATOR")
+                    .requestMatchers("/api/v1/users/**").hasAnyRole("ADMINISTRATOR", "OPERATOR")
                     .anyRequest().authenticated()
             )
             .addFilterBefore(

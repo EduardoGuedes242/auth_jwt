@@ -1,7 +1,6 @@
 package com.eduardoguedes.auth_jwt.entity;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 import java.util.UUID;
 
@@ -28,6 +27,10 @@ public class User {
   @Column(name = "updated_at")
   private Instant updatedAt;
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "role", nullable = false)
+  private Role role;
+
   public UUID getId() {
     return id;
   }
@@ -52,12 +55,17 @@ public class User {
     return updatedAt;
   }
 
+  public Role getRole() {
+    return role;
+  }
+
   public User(){}
 
-  public User(String name, String email, String passwordHash) {
+  public User(String name, String email, String passwordHash, Role role) {
     this.name = name;
     this.email = email;
     this.passwordHash = passwordHash;
+    this.role = role;
   }
 
   public void changePassword(String newPasswordHash) {
@@ -74,3 +82,4 @@ public class User {
     this.updatedAt = Instant.now();
   }
 }
+
